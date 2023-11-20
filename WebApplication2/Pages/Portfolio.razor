@@ -1,0 +1,31 @@
+@page "/Portfolio"
+@using Microsoft.AspNetCore.Components.Forms
+@using WebApplication2.Extension
+@using WebApplication2.Model.DTOs
+<h3>Portfolio</h3>
+<div style="margin-top: 50px; margin-left: 100px ">
+    <div style="margin-bottom: 20px;">
+        <InputFile OnChange="OnFileUpload"></InputFile>
+    </div>
+    @*<div>
+    <Button Color="Color.Primary" onclick="@">SendJsonToApi</Button>
+    </div>*@
+</div>
+
+@code {
+    private List<UserDTO> UserDtos = new List<UserDTO>();
+
+    string FilePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Files"
+        , "Users.xlxs");
+    
+    private async Task OnFileUpload(InputFileChangeEventArgs arg)
+    {
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        UserDtos = await ImortExcelExtension.ImportExcel<UserDTO>(FilePath, "Users");
+        await base.OnInitializedAsync();
+    }
+
+}
